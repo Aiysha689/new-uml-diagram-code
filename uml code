@@ -1,0 +1,123 @@
+from abc import ABC, abstractmethod
+from datetime import date
+
+class Serviceable(ABC):
+    @abstractmethod
+    def needs_service(self) -> bool:
+        pass
+
+class CarModel:
+    def __init__(self, modelId: str, engine: 'Engine', battery: 'Battery'):
+        self.modelId = modelId
+        self.engine = engine
+        self.battery = battery
+
+    def getModelId(self) -> str:
+        return self.modelId
+
+    def setModelId(self, id: str) -> None:
+        self.modelId = id
+
+    def getEngine(self) -> 'Engine':
+        return self.engine
+
+    def setEngine(self, engine: 'Engine') -> None:
+        self.engine = engine
+
+    def getBattery(self) -> 'Battery':
+        return self.battery
+
+    def setBattery(self, battery: 'Battery') -> None:
+        self.battery = battery
+
+    def needs_service(self) -> bool:
+        return self.engine.needs_service() or self.battery.needs_service()
+
+class Engine(Serviceable):
+    def __init__(self, engineId: str):
+        self.engineId = engineId
+
+    def getEngineId(self) -> str:
+        return self.engineId
+
+    def setEngineId(self, id: str) -> None:
+        self.engineId = id
+
+    def needs_service(self) -> bool:
+        pass
+
+class Battery(Serviceable):
+    def __init__(self, batteryId: str):
+        self.batteryId = batteryId
+
+    def getBatteryId(self) -> str:
+        return self.batteryId
+
+    def setBatteryId(self, id: str) -> None:
+        self.batteryId = id
+
+    def needs_service(self) -> bool:
+        pass
+
+class CapuletEngine(Engine):
+    def __init__(self, engineId: str, last_service_mileage: int, current_mileage: int):
+        super().__init__(engineId)
+        self.last_service_mileage = last_service_mileage
+        self.current_mileage = current_mileage
+
+    def needs_service(self) -> bool:
+        # Logic to determine if CapuletEngine needs service based on mileage
+        pass
+
+class SternmanEngine(Engine):
+    def __init__(self, engineId: str, warning_light_on: bool):
+        super().__init__(engineId)
+        self.warning_light_on = warning_light_on
+
+    def needs_service(self) -> bool:
+        # Logic to determine if SternmanEngine needs service based on warning light
+        pass
+
+class WilloughbyEngine(Engine):
+    def __init__(self, engineId: str, last_service_mileage: int, current_mileage: int):
+        super().__init__(engineId)
+        self.last_service_mileage = last_service_mileage
+        self.current_mileage = current_mileage
+
+    def needs_service(self) -> bool:
+        # Logic to determine if WilloughbyEngine needs service based on mileage
+        pass
+
+class SpindlerBattery(Battery):
+    def __init__(self, batteryId: str, last_service_date: date, current_date: date):
+        super().__init__(batteryId)
+        self.last_service_date = last_service_date
+        self.current_date = current_date
+
+    def needs_service(self) -> bool:
+        # Logic to determine if SpindlerBattery needs service based on date
+        pass
+
+class NubbinBattery(Battery):
+    def __init__(self, batteryId: str, last_service_date: date, current_date: date):
+        super().__init__(batteryId)
+        self.last_service_date = last_service_date
+        self.current_date = current_date
+
+    def needs_service(self) -> bool:
+        # Logic to determine if NubbinBattery needs service based on date
+        pass
+
+# Example usage:
+today = date.today()
+calliope = CarModel("Calliope", CapuletEngine("Capulet Engine", 50000, 55000), SpindlerBattery("Spindler Battery", today, today))
+glissade = CarModel("Glissade", WilloughbyEngine("Willoughby Engine", 80000, 85000), SpindlerBattery("Spindler Battery", today, today))
+palindrome = CarModel("Palindrome", SternmanEngine("Sternman Engine", True), SpindlerBattery("Spindler Battery", today, today))
+rorschach = CarModel("Rorschach", WilloughbyEngine("Willoughby Engine", 70000, 75000), NubbinBattery("Nubbin Battery", today, today))
+thovex = CarModel("Thovex", CapuletEngine("Capulet Engine", 40000, 45000), NubbinBattery("Nubbin Battery", today, today))
+
+print(calliope.needs_service())  # Check if Calliope needs service
+print(glissade.needs_service())  # Check if Glissade needs service
+print(palindrome.needs_service())  # Check if Palindrome needs service
+print(rorschach.needs_service())  # Check if Rorschach needs service
+print(thovex.needs_service())  # Check if Thovex needs service
